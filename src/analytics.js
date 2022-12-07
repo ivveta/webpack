@@ -1,7 +1,4 @@
-console.log('1');
 function createAnalytics() {
-  console.log('3');
-
   let counter = 0;
   let isDestroyed = false;
 
@@ -22,6 +19,5 @@ function createAnalytics() {
     },
   };
 }
-console.log('2');
 
 window.analytics = createAnalytics();
