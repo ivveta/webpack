@@ -12,7 +12,7 @@ module.exports = {
     analytics: './analytics.js',
   },
   output: {
-    // шпблон именования полученных файлов
+    // шаблон именования полученных файлов
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
   },
@@ -24,4 +24,23 @@ module.exports = {
     // чистит папку dist при сборке
     new CleanWebpackPlugin(),
   ],
+  // лоадеры позволяют webpack работать с файлами, отличными от js
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        // webpack пропускает справа налево: сначала css-loader, потом style-loader
+        // css-loader позволяет делать imports css in js
+        // style-loader добавляет стили в <head> html
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+        type: 'asset/resource',
+        // file-loader устарел https://webpack.js.org/guides/asset-modules/
+        // заменен на type: 'asset/resource',
+        // было use: ['file-loader'],
+      },
+    ],
+  },
 };
