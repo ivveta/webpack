@@ -4,6 +4,7 @@
   "description": "webpack course",
   "main": "index.js",
   "scripts": {
+    "watch": "webpack --mode development --watch",
     "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },
@@ -15,8 +16,11 @@
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.2",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.8.0",
+    "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   }

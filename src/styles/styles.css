@@ -1,0 +1,16 @@
+.container {
+    padding-top: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.dog {
+    background: url("../assets/dog.png") no-repeat center;
+    background-size: contain;
+    height: 200px;
+    margin: 0 auto;
+}
