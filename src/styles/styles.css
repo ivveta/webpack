@@ -21,3 +21,7 @@ h1 {
     height: 200px;
     margin: 0 auto;
 }
+
+.code {
+    color: red;
+}
