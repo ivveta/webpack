@@ -1,6 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   // корневая папка, где webpack будет искать файлы, все пути указывать от нее
@@ -15,6 +15,8 @@ module.exports = {
     // шаблон именования полученных файлов
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+    // чистит папку output при сборке
+    clean: true,
   },
   resolve: {
     // какие расширения понимать по-умолчанию, чтобы не писать в import
@@ -45,8 +47,15 @@ module.exports = {
       // шаблон для html, скрипты webpack подключит сам
       template: './index.html',
     }),
-    // чистит папку dist при сборке
-    new CleanWebpackPlugin(),
+    //копирует файлы из src в dist
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/favicon.ico'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+      ],
+    }),
   ],
   // лоадеры позволяют webpack работать с файлами, отличными от js
   module: {
