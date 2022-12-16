@@ -42,6 +42,30 @@ module.exports = {
       directory: path.join(__dirname, 'src'),
     },
   },
+  resolve: {
+    // какие расширения понимать по-умолчанию, чтобы не писать в import
+    extensions: ['.js', '.json', '.png'],
+    // алиасы в import
+    alias: {
+      '@models': path.resolve(__dirname, 'src/models'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+    },
+  },
+  optimization: {
+    // разбить output на чанки
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+  target: 'web',
+  devServer: {
+    // включить hot reload
+    hot: true,
+    static: {
+      directory: path.join(__dirname, 'src'),
+    },
+  },
   plugins: [
     new HTMLWebpackPlugin({
       // шаблон для html, скрипты webpack подключит сам
