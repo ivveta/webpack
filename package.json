@@ -4,10 +4,10 @@
   "description": "webpack course",
   "private": true,
   "scripts": {
-    "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "dev": "cross-env NODE_ENV=development webpack --mode development",
-    "build": "cross-env NODE_ENV=production webpack --mode production",
-    "serve": "cross-env NODE_ENV=development webpack serve --open"
+    "watch": "NODE_ENV=development webpack --mode development --watch",
+    "dev": "NODE_ENV=development webpack --mode development",
+    "build": "NODE_ENV=production webpack --mode production",
+    "serve": "NODE_ENV=development webpack serve --open"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.7.2",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "csv-loader": "^3.0.5",
