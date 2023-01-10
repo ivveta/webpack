@@ -83,15 +83,18 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        // webpack пропускает справа налево: сначала css-loader, потом style-loader
+        // webpack пропускает справа налево
+        // css-loader транспилирует CSS в CommonJS - позволяет делать imports css in js
         // MiniCssExtractPlugin.loader выносит css в отдельный файл
-        // css-loader позволяет делать imports css in js (не используется в проекте)
-        // style-loader добавляет стили в <head> html
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.less$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
