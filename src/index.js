@@ -5,6 +5,8 @@ import json from '@assets/json';
 import xml from '@assets/data.xml';
 import csv from '@assets/data.csv';
 import '@styles/styles.css';
+import '@styles/less.less';
+import '@styles/scss.scss';
 import DogImage from '@assets/dog';
 
 const post = new Post('webpack post title', DogImage);

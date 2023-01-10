@@ -7,6 +7,17 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// пример написания функции
+// отдает шаблон для имени файла
+const fileName = (extension) =>
+  isProd ? `[name].[contenthash].${extension}` : `[name].${extension}`;
+
+const cssLoaders = (extraLoaders = []) =>
+  // webpack пропускает лоадеры справа налево
+  // css-loader транспилирует CSS в CommonJS - позволяет делать imports css in js
+  // MiniCssExtractPlugin.loader выносит css в отдельный файл
+  [MiniCssExtractPlugin.loader, 'css-loader', ...extraLoaders];
+
 module.exports = {
   // корневая папка, где webpack будет искать файлы, все пути указывать от нее
   context: path.resolve(__dirname, 'src'),
@@ -18,7 +29,7 @@ module.exports = {
   },
   output: {
     // шаблон именования полученных файлов
-    filename: '[name].[contenthash].js',
+    filename: fileName('js'),
     path: path.resolve(__dirname, 'dist'),
     // чистит папку output при сборке
     clean: true,
@@ -71,18 +82,22 @@ module.exports = {
     }),
     // выносит css в отдельный файл
     // Hot Module Reloading HMR для CSS автоматически поддерживается в webpack 5.
-    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+    new MiniCssExtractPlugin({ filename: fileName('css') }),
   ],
   // лоадеры позволяют webpack работать с файлами, отличными от js
   module: {
     rules: [
       {
         test: /\.css$/,
-        // webpack пропускает справа налево: сначала css-loader, потом style-loader
-        // MiniCssExtractPlugin.loader выносит css в отдельный файл
-        // css-loader позволяет делать imports css in js (не используется в проекте)
-        // style-loader добавляет стили в <head> html
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: cssLoaders(),
+      },
+      {
+        test: /\.less$/,
+        use: cssLoaders(['less-loader']),
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: cssLoaders(['sass-loader']),
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
