@@ -12,6 +12,12 @@ const isProd = process.env.NODE_ENV === 'production';
 const fileName = (extension) =>
   isProd ? `[name].[contenthash].${extension}` : `[name].${extension}`;
 
+const cssLoaders = (extraLoaders = []) =>
+  // webpack пропускает лоадеры справа налево
+  // css-loader транспилирует CSS в CommonJS - позволяет делать imports css in js
+  // MiniCssExtractPlugin.loader выносит css в отдельный файл
+  [MiniCssExtractPlugin.loader, 'css-loader', ...extraLoaders];
+
 module.exports = {
   // корневая папка, где webpack будет искать файлы, все пути указывать от нее
   context: path.resolve(__dirname, 'src'),
@@ -83,18 +89,15 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        // webpack пропускает справа налево
-        // css-loader транспилирует CSS в CommonJS - позволяет делать imports css in js
-        // MiniCssExtractPlugin.loader выносит css в отдельный файл
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: cssLoaders(),
       },
       {
         test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
+        use: cssLoaders(['less-loader']),
       },
       {
         test: /\.s[ac]ss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: cssLoaders(['sass-loader']),
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
