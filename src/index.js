@@ -4,6 +4,7 @@ import { Post } from '@models/Post';
 import json from '@assets/json';
 import xml from '@assets/data.xml';
 import csv from '@assets/data.csv';
+import './babel';
 import '@styles/styles.css';
 import '@styles/less.less';
 import '@styles/scss.scss';

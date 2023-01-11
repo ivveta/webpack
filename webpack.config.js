@@ -114,6 +114,19 @@ module.exports = {
         test: /\.csv$/,
         use: ['csv-loader'],
       },
+      {
+        // настройка babel с Webpack https://babeljs.io/setup
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          // лоадер для сборки в Webpack
+          loader: 'babel-loader',
+          options: {
+            // пресет, который содержит все пакеты, для работы с современным js
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
     ],
   },
 };
