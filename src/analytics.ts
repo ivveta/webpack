@@ -1,8 +1,7 @@
-import * as $ from 'jquery';
-
-function createAnalytics() {
-  let counter = 0;
-  let isDestroyed = false;
+const createAnalytics = () => {
+  // variables types just for test
+  let counter: number = 0;
+  let isDestroyed: boolean = false;
 
   const listener = () => counter++;
 
@@ -20,6 +19,6 @@ function createAnalytics() {
       return counter;
     },
   };
-}
+};
 
-window.analytics = createAnalytics();
+window['analytics'] = createAnalytics();

@@ -18,14 +18,18 @@ const cssLoaders = (extraLoaders = []) =>
   // MiniCssExtractPlugin.loader выносит css в отдельный файл
   [MiniCssExtractPlugin.loader, 'css-loader', ...extraLoaders];
 
+const babelOptions = (extraPresets = []) => [
+  '@babel/preset-env',
+  ...extraPresets,
+];
 module.exports = {
   // корневая папка, где webpack будет искать файлы, все пути указывать от нее
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
     // пути до точек входа (где начинается сборка)
-    main: './index.js',
-    analytics: './analytics.js',
+    main: './index.jsx',
+    analytics: './analytics.ts',
   },
   output: {
     // шаблон именования полученных файлов
@@ -36,7 +40,7 @@ module.exports = {
   },
   resolve: {
     // какие расширения понимать по-умолчанию, чтобы не писать в import
-    extensions: ['.js', '.json', '.png'],
+    extensions: ['.js', '.jsx', '.json', '.png'],
     // алиасы в import
     alias: {
       '@models': path.resolve(__dirname, 'src/models'),
@@ -115,7 +119,7 @@ module.exports = {
         use: ['csv-loader'],
       },
       {
-        // настройка babel с Webpack https://babeljs.io/setup
+        // транспиляция JS c помощью babel в совместимый со старыми браузерами JS
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -123,7 +127,36 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             // пресет, который содержит все пакеты, для работы с современным js
-            presets: ['@babel/preset-env'],
+            presets: babelOptions(),
+          },
+        },
+      },
+      {
+        // транспиляция TS c помощью babel в совместимый со старыми браузерами JS
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: {
+          // лоадер для сборки в Webpack
+          loader: 'babel-loader',
+          options: {
+            // preset-typescript пресет для тайпскрипта
+            presets: babelOptions(['@babel/preset-typescript']),
+          },
+        },
+      },
+      {
+        // транспиляция JSX c помощью babel в совместимый со старыми браузерами JS
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          // лоадер для сборки в Webpack
+          loader: 'babel-loader',
+          options: {
+            // preset-react пресет для react
+            presets: babelOptions([
+              // runtime: 'automatic' позволяет не импортировать React в ручную в jsx файлах
+              ['@babel/preset-react', { runtime: 'automatic' }],
+            ]),
           },
         },
       },
