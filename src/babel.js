@@ -9,3 +9,11 @@ class Util {
 }
 
 console.log('Util id:', Util.id);
+
+const unused = '45645';
+console.log(unused);
+
+// динамический импорт, подгружает lodash в отдельном чанке
+import('lodash').then(({ default: _ }) => {
+  console.log('Lodash', _.random(0, 42, true));
+});
