@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -19,9 +20,11 @@ const cssLoaders = (extraLoaders = []) =>
   [MiniCssExtractPlugin.loader, 'css-loader', ...extraLoaders];
 
 const babelOptions = (extraPresets = []) => [
+  // пресет, который содержит все пакеты, для работы с современным js
   '@babel/preset-env',
   ...extraPresets,
 ];
+
 module.exports = {
   // корневая папка, где webpack будет искать файлы, все пути указывать от нее
   context: path.resolve(__dirname, 'src'),
@@ -66,6 +69,8 @@ module.exports = {
       directory: path.join(__dirname, 'src'),
     },
   },
+  // source-map позволяют просматривать в dev-tools исходный код, а не собранный
+  devtool: isProd ? false : 'source-map',
   plugins: [
     new HTMLWebpackPlugin({
       // шаблон для html, скрипты webpack подключит сам
@@ -87,6 +92,7 @@ module.exports = {
     // выносит css в отдельный файл
     // Hot Module Reloading HMR для CSS автоматически поддерживается в webpack 5.
     new MiniCssExtractPlugin({ filename: fileName('css') }),
+    new ESLintPlugin(),
   ],
   // лоадеры позволяют webpack работать с файлами, отличными от js
   module: {
